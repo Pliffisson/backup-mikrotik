@@ -1,0 +1,45 @@
+services:
+  mikrotik-backup:
+    build: .
+    container_name: mikrotik-backup
+    environment:
+      - TZ=UTC
+    env_file:
+      - .env
+    volumes:
+      - ./backups:/app/backups
+      - ./logs:/app/logs
+      - ./config:/app/config:ro
+    networks:
+      - mikrotik-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os; exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Uncomment for future web interface
+  # web-interface:
+  #   image: nginx:alpine
+  #   container_name: mikrotik-backup-web
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./web:/usr/share/nginx/html:ro
+  #     - ./backups:/usr/share/nginx/html/backups:ro
+  #   networks:
+  #     - mikrotik-network
+  #   depends_on:
+  #     - mikrotik-backup
+
+networks:
+  mikrotik-network:
+    driver: bridge
+
+volumes:
+  mikrotik-backups:
+    driver: local
+  mikrotik-logs:
+    driver: local

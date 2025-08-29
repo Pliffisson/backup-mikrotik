@@ -1,0 +1,18 @@
+{
+  "devices": [
+    {
+      "name": "mikrotik-matriz",
+      "host": "192.168.1.1",
+      "username": "admin",
+      "password": "sua_senha_segura",
+      "port": 22
+    },
+    {
+      "name": "mikrotik-filial",
+      "host": "10.0.0.1",
+      "username": "backup-user",
+      "password": "outra_senha_segura",
+      "port": 2222
+    }
+  ]
+}
